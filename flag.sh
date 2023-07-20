@@ -3,7 +3,7 @@
 # Bad bash script that generates a flag from the center color of an input image
 #
 if [ $# -ne 3 ]; then
-  echo "Usage: flag.sh INPUT_FILE NUMBER_OF_STRIPES OUTPUT_FILE"
+  echo "Usage: flag.sh INPUT_FILE NUMBER_OF_STRIPES OUTPUT_FILE" >&2
   exit 1
 fi
 
@@ -14,7 +14,7 @@ WIDTH=$(magick $INPUT_FILE -format %w info:)
 CENTER_WIDTH=$(($WIDTH/2))
 
 if [ "$2" -gt "$HEIGHT" ]; then
-  echo "Height bigger than image height"
+  echo "Height bigger than image height" >&2
   exit 1
 fi
 
