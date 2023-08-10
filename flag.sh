@@ -9,19 +9,18 @@ fi
 
 INPUT_FILE=$1
 
-HEIGHT=$(magick $INPUT_FILE -format %h info:)
-WIDTH=$(magick $INPUT_FILE -format %w info:)
-CENTER_WIDTH=$(($WIDTH/2))
+HEIGHT=$(magick "$INPUT_FILE" -format %h info:)
+WIDTH=$(magick "$INPUT_FILE" -format %w info:)
+CENTER_WIDTH=$(("$WIDTH"/2))
 
 if [ "$2" -gt "$HEIGHT" ]; then
   echo "Height bigger than image height" >&2
   exit 1
 fi
 
-echo "Generating a $WIDTH"x"$HEIGHT pixel image"
+echo Generating a "$WIDTH"x"$HEIGHT" pixel image
 CMD="-size $WIDTH""x$HEIGHT xc:none"
 PIXELS=""
-RECTS=""
 
 for STRIPES in $(seq 0 $(($2-1)))
 do
@@ -31,7 +30,7 @@ do
   PIXELS="$PIXELS%[hex:p{$CENTER_WIDTH,$CENTER_HEIGHT}]:"	
 done
 
-COLORS=$(magick $INPUT_FILE -format $PIXELS info:)
+COLORS=$(magick "$INPUT_FILE" -format "$PIXELS" info:)
 IFS=':' read -r -a COLOR_ARRAY <<< "$COLORS"
 
 for STRIPES in $(seq 0 $(($2-1)))
